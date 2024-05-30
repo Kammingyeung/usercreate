@@ -1,50 +1,49 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template
 import requests
+from requests.auth import HTTPBasicAuth
 
 app = Flask(__name__)
 
-# 替换为你的 Grafana 和 Jumpserver 信息
-grafana_url = 'http://your-grafana-instance.com/api/admin/users'
-grafana_api_key = 'your_grafana_api_key'
-jumpserver_url = 'http://your-jumpserver-instance.com/api/users/'
-jumpserver_token = 'your_jumpserver_token'
 
-@app.route('/create_accounts', methods=['POST'])
-def create_accounts():
-    account_data = request.json
-    username = account_data['username']
-    password = account_data['password']
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-    # 创建 Grafana 账号
-    grafana_response = requests.post(grafana_url, headers={
-        "Authorization": f"Bearer {grafana_api_key}",
-        "Content-Type": "application/json"
-    }, json={
-        "name": username,
-        "email": f"{username}@example.com",
+
+@app.route('/create_user', methods=['POST'])
+def create_user():
+    # 从表单获取用户信息
+    name = request.form['name']
+    email = request.form['email']
+    username = request.form['username']
+    password = request.form['password']
+
+    # Grafana 的详细信息
+    grafana_url = "http://172.16.22.41:3000"  # 替换 <grafana_host> 为你的 Grafana 主机地址
+    admin_user = "admin"  # 管理员用户名
+    admin_password = "admin"  # 管理员密码
+
+    # 构建新用户的数据
+    new_user_data = {
+        "name": name,
+        "email": email,
         "login": username,
         "password": password
-    })
+    }
 
-    # 创建 Jumpserver 账号
-    jumpserver_response = requests.post(jumpserver_url, headers={
-        "Authorization": f"Bearer {jumpserver_token}",
-        "Content-Type": "application/json"
-    }, json={
-        "username": username,
-        "password": password,
-        "name": username,
-        "email": f"{username}@example.com"
-    })
+    # 向 Grafana API 发送请求以创建新用户
+    response = requests.post(
+        f"{grafana_url}/api/admin/users",
+        json=new_user_data,
+        auth=HTTPBasicAuth(admin_user, admin_password)
+    )
 
-    if grafana_response.ok and jumpserver_response.ok:
-        return jsonify(success=True, message="Accounts created successfully")
+    # 根据响应结果返回信息
+    if response.status_code == 200:
+        return "New user created successfully."
     else:
-        errors = {
-            "grafana_error": grafana_response.text,
-            "jumpserver_error": jumpserver_response.text
-        }
-        return jsonify(success=False, message=errors), 400
+        return f"Failed to create user. Status code: {response.status_code}, Response: {response.content}"
+
 
 if __name__ == '__main__':
     app.run(debug=True)
