@@ -9,7 +9,9 @@ def get_auth(KeyID, SecretID):
     return auth
 
 def get_user_info(jms_url, auth):
+    #获取所有用户信息
     # url = jms_url + '/api/v1/users/users/'
+    #获取资产授权分组信息
     url = jms_url + '/api/v1/perms/asset-permissions/'
     gmt_form = '%a, %d %b %Y %H:%M:%S GMT'
     headers = {
