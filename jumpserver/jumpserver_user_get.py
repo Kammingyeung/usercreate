@@ -11,7 +11,7 @@ def get_auth(KeyID, SecretID):
 
 #获取某个用户授权的所有资产
 def get_user_assets(jms_url, auth, user_id):
-    url = f'{jms_url}/api/v1/perms/users/29a1fb6b-daff-4cb5-83c4-72cf4faca98e/assets/'
+    url = f'{jms_url}/api/v1/perms/users/{user_id}/assets/'
     gmt_form = '%a, %d %b %Y %H:%M:%S GMT'
     headers = {
         'Accept': 'application/json',
@@ -31,9 +31,12 @@ if __name__ == '__main__':
     jms_url = 'http://172.31.15.114:36180'
     KeyID = '5102eddf-6072-459c-b48a-bdffef372453'
     SecretID = '9dbf7dbb-4a3f-478d-a3e2-3ce6bb15df53'
-    user_id = '29a1fb6b-daff-4cb5-83c4-72cf4faca98e'  # 用户的UUID
+    user_id = 'd62ec010-b3b2-4be6-9c46-3daf832eb12f'  # 用户的UUID
     auth = get_auth(KeyID, SecretID)
 
     user_assets = get_user_assets(jms_url, auth, user_id)
     if user_assets is not None:
-        print(json.dumps(user_assets, indent=2))
+        # print(json.dumps(user_assets, indent=2))
+        if user_assets is not None:
+            asset_ids = [asset.get('id') for asset in user_assets]  # 使用列表推导式获取所有资产ID
+            print(asset_ids)  # 打印资产ID列表

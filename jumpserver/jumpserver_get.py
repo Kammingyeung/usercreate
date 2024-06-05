@@ -24,11 +24,11 @@ def get_user_info(jms_url, auth):
     print(json.loads(response.text))
 
 if __name__ == '__main__':
-    # jms_url = 'http://172.16.22.41'
-    # KeyID = 'dc7cad72-27e4-4151-b78d-497e191ab5ba'
-    # SecretID = 'EAw4KR81v4hrhrvXliv8jF403ClG6MYREgNF'
-    jms_url = 'http://172.31.15.114:36180'
-    KeyID = '5102eddf-6072-459c-b48a-bdffef372453'
-    SecretID = '9dbf7dbb-4a3f-478d-a3e2-3ce6bb15df53'
+    jms_url = 'http://172.16.22.41'
+    KeyID = 'dc7cad72-27e4-4151-b78d-497e191ab5ba'
+    SecretID = 'EAw4KR81v4hrhrvXliv8jF403ClG6MYREgNF'
+    # jms_url = 'http://172.31.15.114:36180'
+    # KeyID = '5102eddf-6072-459c-b48a-bdffef372453'
+    # SecretID = '9dbf7dbb-4a3f-478d-a3e2-3ce6bb15df53'
     auth = get_auth(KeyID, SecretID)
     get_user_info(jms_url, auth)
