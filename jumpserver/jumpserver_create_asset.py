@@ -9,7 +9,7 @@ def get_auth(KeyID, SecretID):
     auth = HTTPSignatureAuth(key_id=KeyID, secret=SecretID, algorithm='hmac-sha256', headers=signature_headers)
     return auth
 
-
+#创建资产授权分组
 def create_asset_permission(jms_url, auth, name, user_uuid):
     url = jms_url + '/api/v1/perms/asset-permissions/'
     gmt_form = '%a, %d %b %Y %H:%M:%S GMT'
