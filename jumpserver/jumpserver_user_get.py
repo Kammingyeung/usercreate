@@ -45,4 +45,4 @@ if __name__ == '__main__':
             # asset_ids = [asset.get('address') for asset in user_assets]  # 使用列表推导式获取所有资产IP地址
             print(asset_ids)  # 打印资产ID列表
             # for asset in user_assets:
-            #     print(asset.get('id'))  # 直接打印每个资产的IP地址
+            #     print(asset.get('address'))  # 直接打印每个资产的IP地址
