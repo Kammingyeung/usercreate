@@ -30,18 +30,22 @@ def add_account_template_to_asset(jms_url, auth, asset_id, account_data):
 
 
 if __name__ == '__main__':
-    jms_url = 'http://172.16.22.41'
-    KeyID = 'dc7cad72-27e4-4151-b78d-497e191ab5ba'
-    SecretID = 'EAw4KR81v4hrhrvXliv8jF403ClG6MYREgNF'
+    # jms_url = 'http://172.16.22.41'
+    # KeyID = 'dc7cad72-27e4-4151-b78d-497e191ab5ba'
+    # SecretID = 'EAw4KR81v4hrhrvXliv8jF403ClG6MYREgNF'
+    jms_url = 'http://172.31.15.114:36180'
+    KeyID = '5102eddf-6072-459c-b48a-bdffef372453'
+    SecretID = '9dbf7dbb-4a3f-478d-a3e2-3ce6bb15df53'
     auth = get_auth(KeyID, SecretID)
 
     # 多个资产ID列表
-    asset_ids = ['9ec7bd28-68bd-4ca4-bff2-a22e58a723e1', 'fd9fd268-e1fb-4ef1-bc9d-4e66d4cbd453']  # 替换为实际的资产ID列表
+    # 替换为实际的资产ID列表
+    asset_ids = ['14b8e6cc-edc1-4c58-85b7-bce77526fc9b']
     account_data = {
         # "name": "tt",
         "privileged": False,
         "secret_type": "password",
-        "template": "8e145428-928e-4729-b79e-bf2efe0dabef",  # 使用通用的账号模板ID
+        "template": "35497936-5015-4738-8922-2314d8194a9d",  # 使用通用的账号模板ID
         # "username": "tt"
     }
 
