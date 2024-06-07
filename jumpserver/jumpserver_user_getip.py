@@ -34,7 +34,7 @@ if __name__ == '__main__':
     jms_url = 'http://172.31.15.114:36180'
     KeyID = '5102eddf-6072-459c-b48a-bdffef372453'
     SecretID = '9dbf7dbb-4a3f-478d-a3e2-3ce6bb15df53'
-    user_id = '29a1fb6b-daff-4cb5-83c4-72cf4faca98e'  # 用户的UUID
+    user_id = '395c9604-55e1-4402-b3ca-991146c6af62'  # 用户的UUID
     auth = get_auth(KeyID, SecretID)
 
     user_assets = get_user_assets(jms_url, auth, user_id)
