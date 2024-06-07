@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堡垒机授权页面</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin-top: 50px;
+        }
+        .form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #003d82;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus {
+            border-color: #0056b3;
+            box-shadow: none;
+        }
+        label {
+            font-weight: 600;
+        }
+        select.form-control {
+            appearance: none;
+        }
+        /* 默认隐藏IP地址和授权人表单组件 */
+        .conditional {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h2>堡垒机授权</h2>
+            <p>请填写授权信息</p>
+        </div>
+        <form id="authorizationForm">
+            <div class="form-group">
+                <label for="userType">选择授权类型:</label>
+                <select class="form-control" id="userType" name="userType">
+                    <option value="">请选择授权类型</option>
+                    <option value="root">root用户资产授权</option>
+                    <option value="normal">普通用户资产授权</option>
+                </select>
+            </div>
+            <div class="form-group conditional" id="ipAddressDiv">
+                <label for="ipAddress">IP地址:</label>
+                <input type="text" class="form-control" id="ipAddress" name="ipAddress" required>
+            </div>
+<!--            <div class="form-group conditional" id="authorizationPeriodDiv">-->
+<!--                <label for="authorizationPeriod">授权期限:</label>-->
+<!--                <input type="datetime-local" class="form-control" id="authorizationPeriod" name="authorizationPeriod">-->
+<!--            </div>-->
+            <div class="form-group conditional" id="authorizationStartTimeDiv">
+                <label for="authorizationStartTime">授权开始时间:</label>
+                <input type="datetime-local" class="form-control" id="authorizationStartTime" name="authorizationStartTime">
+            </div>
+            <div class="form-group conditional" id="authorizationEndTimeDiv">
+                <label for="authorizationEndTime">授权结束时间:</label>
+                <input type="datetime-local" class="form-control" id="authorizationEndTime" name="authorizationEndTime">
+            </div>
+            <div class="form-group conditional" id="authorizerDiv">
+                <label for="authorizer">授权人:</label>
+                <input type="text" class="form-control" id="authorizer" name="authorizer" required>
+            </div>
+            <button type="submit" class="btn btn-primary">提交授权</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+function toggleFields() {
+    var userType = $('#userType').val();
+    // 首先隐藏所有条件性显示的字段
+    $('.conditional').hide();
+
+    // 如果用户选择了一个有效的授权类型，则显示IP地址和授权人字段
+    if (userType) {
+        $('#ipAddressDiv').show();
+        $('#authorizerDiv').show();
+
+        // 如果用户选择的是root用户资产授权，还需要显示授权期限的开始和结束时间字段
+        if (userType === 'root') {
+            $('#authorizationStartTimeDiv').show();
+            $('#authorizationEndTimeDiv').show();
+        }
+    }
+}
+
+// 在文档加载完成后绑定事件
+$(document).ready(function() {
+    // 绑定选择授权类型的变更事件
+    $('#userType').change(toggleFields);
+
+    // 触发一次change事件以应用初始状态
+    $('#userType').change();
+
+    // 授权期限开始时间和结束时间的输入框格式化和事件监听器
+    $('#authorizationStartTime, #authorizationEndTime').on('change', function() {
+        var formattedDateTime = formatDateTime($(this).val());
+        console.log(formattedDateTime); // 显示格式化后的日期时间
+    });
+
+
+    // 表单提交事件处理
+    $('#authorizationForm').on('submit', function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        // 在这里编写AJAX调用将数据发送到后端Python服务器的代码
+        console.log(formData); // 用于调试，显示表单数据
+    });
+});
+    </script>
+</body>
+</html>
